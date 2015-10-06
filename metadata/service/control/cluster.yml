@@ -1,0 +1,39 @@
+applications:
+- glance
+parameters:
+  glance:
+    server:
+      enabled: true
+      version: ${_param:glance_version}
+      database:
+        engine: mysql
+        host: ${_param:cluster_vip_address}
+        port: 3306
+        name: glance
+        user: glance
+        password: ${_param:mysql_glance_password}
+      rabbit:
+        host: ${_param:cluster_vip_address}
+      registry:
+        host: ${_param:cluster_vip_address}
+        port: 9191
+      bind:
+        address: ${_param:cluster_local_address}
+        port: 9292
+      identity:
+        engine: keystone
+        host: ${_param:cluster_vip_address}
+        port: 35357
+        user: glance
+        password: ${_param:keystone_glance_password}
+        tenant: service
+      message_queue:
+        engine: rabbitmq
+        host: ${_param:cluster_vip_address}
+        port: 5672
+        user: openstack
+        password: ${_param:rabbitmq_openstack_password}
+        virtual_host: '/openstack'
+        ha_queues: true
+      storage:
+        engine: file
