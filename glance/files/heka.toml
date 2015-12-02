@@ -5,6 +5,7 @@ log_directory = "/var/log/glance"
 file_match = 'glance-registry\.log\.?(?P<Index>\d+)?(.gz)?'
 priority = ["^Index"]
 decoder = "glance"
+oldest_duration = "168h"
 
 [glance]
 type = "SandboxDecoder"
