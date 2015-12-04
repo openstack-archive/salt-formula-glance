@@ -1,0 +1,9 @@
+doc:
+  name: Glance
+  description: The Glance project provides services for discovering, registering, and retrieving virtual machine images.
+  role:
+  {%- if pillar.glance.server is defined %}
+    server:
+      name: server
+      param: {}
+  {%- endif %}
