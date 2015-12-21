@@ -544,12 +544,13 @@ flavor=keystone
 # by the stores option.
 # Deprecated group/name - [DEFAULT]/default_store
 # Default: 'file'
-default_store = file
 
 {%- if server.storage.engine == 'file' %}
+default_store = file
 stores = glance.store.filesystem.Store,
          glance.store.http.Store
 {%- else %}
+default_store = {{ server.storage.engine }}
 stores = {{ server.storage.engine }}
 {%- endif %}
 # ============ Filesystem Store Options ========================
