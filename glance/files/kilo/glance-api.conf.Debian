@@ -350,7 +350,7 @@ backend = sqlalchemy
 # Deprecated group/name - [DATABASE]/sql_connection
 # Deprecated group/name - [sql]/connection
 #connection = <None>
-connection = {{ pillar.glance.server.database.engine }}://{{ pillar.glance.server.database.user }}:{{ pillar.glance.server.database.password }}@{{ pillar.glance.server.database.host }}/{{ pillar.glance.server.database.name }}
+connection = {{ server.database.engine }}://{{ server.database.user }}:{{ server.database.password }}@{{ server.database.host }}/{{ server.database.name }}
 
 # The SQL mode to be used for MySQL sessions. This option,
 # including the default, overrides any server-set SQL mode. To
@@ -448,14 +448,35 @@ max_overflow = 30
 # Deprecated group/name - [DEFAULT]/lock_path (string value)
 #lock_path = /tmp
 
+{%- if server.identity.get('version', 2) == 2 %}
+
 [keystone_authtoken]
-identity_uri = http://{{ pillar.glance.server.identity.host }}:35357
-admin_tenant_name = {{ pillar.glance.server.identity.tenant }}
-admin_user = {{ pillar.glance.server.identity.user }}
-admin_password = {{ pillar.glance.server.identity.password }}
+identity_uri = http://{{ server.identity.host }}:35357
+admin_tenant_name = {{ server.identity.tenant }}
+admin_user = {{ server.identity.user }}
+admin_password = {{ server.identity.password }}
 revocation_cache_time = 10
-auth_uri=http://{{ pillar.glance.server.identity.host }}:5000
-auth_url=http://{{ pillar.glance.server.identity.host }}:35357
+auth_uri=http://{{ server.identity.host }}:5000
+auth_url=http://{{ server.identity.host }}:35357
+
+{%- else %}
+
+[keystone_authtoken]
+identity_uri = http://{{ server.identity.host }}:35357/v3
+revocation_cache_time = 10
+auth_section = generic_password
+
+[generic_password]
+auth_plugin = password
+user_domain_id = {{ server.identity.get('domain', 'default') }}
+project_domain_id = {{ server.identity.get('domain', 'default') }}
+project_name = {{ server.identity.tenant }}
+username = {{ server.identity.user }}
+password = {{ server.identity.password }}
+auth_uri=http://{{ server.identity.host }}:5000/v3
+auth_url=http://{{ server.identity.host }}:35357/v3
+
+{%- endif %}
 
 [paste_deploy]
 # Name of the paste configuration file that defines the available pipelines
