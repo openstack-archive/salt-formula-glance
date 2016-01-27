@@ -1,5 +1,7 @@
 applications:
 - glance
+classes:
+- service.glance.support
 parameters:
   glance:
     server:
