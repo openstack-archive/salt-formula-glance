@@ -1,0 +1,9 @@
+Code-Review+2: Jay_Clark <jason.t.clark@hp.com>
+Code-Review+1: venkatamahesh <venkatamaheshkotha@gmail.com>
+Workflow+1: Ales Komarek <ales.komarek@tcpcloud.eu>
+Verified+2: Jenkins
+Submitted-by: Jenkins
+Submitted-at: Thu, 04 Feb 2016 22:06:19 +0000
+Reviewed-on: https://review.openstack.org/276223
+Project: openstack/salt-formula-glance
+Branch: refs/heads/master
