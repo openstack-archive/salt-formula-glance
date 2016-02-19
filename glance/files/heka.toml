@@ -2,13 +2,14 @@
 [logstreamer_glance]
 type = "LogstreamerInput"
 log_directory = "/var/log/glance"
-file_match = 'glance-registry\.log\.?(?P<Index>\d+)?(.gz)?'
+file_match = '(?P<Service>.+)\.log\.?(?P<Seq>\d*)$'
+differentiator = ["'glance','_','Service'"]
 priority = ["^Index"]
-decoder = "glance"
-oldest_duration = "168h"
+decoder = "openstack"
 
-[glance]
+[openstack]
 type = "SandboxDecoder"
 filename = "lua_modules/decoders/openstack.lua"
 module_directory = "/usr/share/heka/lua_modules;/usr/share/heka/lua_modules/common"
+
 {% endif %}
