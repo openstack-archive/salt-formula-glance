@@ -214,6 +214,9 @@ registry_client_protocol = http
 #auth_url = None
 # Keystone region
 #auth_region = None
+{% if server.identity.region is defined %}
+auth_region = {{ server.identity.region }}
+{% endif %}
 # Auth strategy
 #auth_strategy = keystone
 
@@ -803,7 +806,9 @@ sheepdog_store_chunk_size = 64
 
 # Region name of this node (string value)
 #os_region_name = <None>
-
+{% if server.identity.region is defined %}
+os_region_name = {{ server.identity.region }}
+{% endif %}
 # Location of ca certicates file to use for cinder client requests
 # (string value)
 #cinder_ca_certificates_file = <None>
