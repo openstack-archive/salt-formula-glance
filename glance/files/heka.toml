@@ -3,7 +3,7 @@
 type = "LogstreamerInput"
 log_directory = "/var/log/glance"
 file_match = '(?P<Service>.+)\.log\.?(?P<Seq>\d*)$'
-differentiator = ["'glance','_','Service'"]
+differentiator = ['glance','_','Service']
 priority = ["^Index"]
 decoder = "openstack"
 
