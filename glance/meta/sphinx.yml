@@ -23,6 +23,9 @@ doc:
         version:
           name: "Version"
           value: {{ server.version }}
+        workers:
+          name: "Number of workers"
+          value: {{ server.workers }}
         database_host:
           name: "Database"
           value: {{ server.database.user }}@{{ server.database.host }}:{{ server.database.port }}//{{ server.database.name }}
