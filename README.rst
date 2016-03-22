@@ -34,6 +34,7 @@ Sample pillar
       server:
         enabled: true
         version: juno
+        workers: 8
         policy:
           publicize_image:
             - "role:admin"

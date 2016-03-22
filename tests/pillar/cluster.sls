@@ -2,6 +2,7 @@ glance:
   server:
     enabled: true
     version: liberty
+    workers: 8
     database:
       engine: mysql
       host: 127.0.0.1

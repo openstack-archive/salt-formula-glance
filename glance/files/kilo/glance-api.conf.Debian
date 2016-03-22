@@ -41,7 +41,7 @@ backlog = 4096
 # The number of child process workers that will be
 # created to service API requests. The default will be
 # equal to the number of CPUs available. (integer value)
-workers = 8
+workers = {{ server.workers }}
 
 # Maximum line size of message headers to be accepted.
 # max_header_line may need to be increased when using large tokens
