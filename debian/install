@@ -1,2 +1,0 @@
-glance/*             /usr/share/salt-formulas/env/glance/
-metadata/service/*      /usr/share/salt-formulas/reclass/service/glance/
