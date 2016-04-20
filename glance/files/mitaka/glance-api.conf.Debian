@@ -1510,44 +1510,25 @@ driver = messagingv2
 # Allowed values: round-robin, shuffle
 #kombu_failover_strategy = round-robin
 
-# The RabbitMQ broker address where a single node is used. (string
-# value)
-# Deprecated group/name - [DEFAULT]/rabbit_host
-#rabbit_host = localhost
+{%- if server.message_queue.members is defined %}
+rabbit_hosts = {% for member in server.message_queue.members -%}
+                   {{ member.host }}:{{ member.get('port', 5672) }}
+                   {%- if not loop.last -%},{%- endif -%}
+               {%- endfor -%}
+{%- else %}
 rabbit_host = {{ server.message_queue.host }}
-
-# The RabbitMQ broker port where a single node is used. (port value)
-# Minimum value: 0
-# Maximum value: 65535
-# Deprecated group/name - [DEFAULT]/rabbit_port
-#rabbit_port = 5672
 rabbit_port = {{ server.message_queue.port }}
-
-# RabbitMQ HA cluster host:port pairs. (list value)
-# Deprecated group/name - [DEFAULT]/rabbit_hosts
-#rabbit_hosts = $rabbit_host:$rabbit_port
+{%- endif %}
 
 # Connect over SSL for RabbitMQ. (boolean value)
 # Deprecated group/name - [DEFAULT]/rabbit_use_ssl
 #rabbit_use_ssl = false
-
-# The RabbitMQ userid. (string value)
-# Deprecated group/name - [DEFAULT]/rabbit_userid
-#rabbit_userid = guest
 rabbit_userid = {{ server.message_queue.user }}
-
-# The RabbitMQ password. (string value)
-# Deprecated group/name - [DEFAULT]/rabbit_password
-#rabbit_password = guest
 rabbit_password = {{ server.message_queue.password }}
 
 # The RabbitMQ login method. (string value)
 # Deprecated group/name - [DEFAULT]/rabbit_login_method
 #rabbit_login_method = AMQPLAIN
-
-# The RabbitMQ virtual host. (string value)
-# Deprecated group/name - [DEFAULT]/rabbit_virtual_host
-#rabbit_virtual_host = /
 rabbit_virtual_host = {{ server.message_queue.virtual_host }}
 
 # How frequently to retry connecting with RabbitMQ. (integer value)
