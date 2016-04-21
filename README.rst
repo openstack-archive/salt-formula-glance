@@ -69,6 +69,26 @@ Sample pillar
           source: http://cdn.download.cirros-cloud.net/0.3.1/cirros-0.3.1-x86_64-disk.img
           public: true
 
+
+Client-side RabbitMQ HA setup
+
+.. code-block:: yaml
+
+    glance:
+      server:
+        ....
+        message_queue:
+          engine: rabbitmq
+          members:
+            - host: 10.0.16.1
+            - host: 10.0.16.2
+            - host: 10.0.16.3
+          user: openstack
+          password: pwd
+          virtual_host: '/openstack'
+        ....
+
+
 Keystone and cinder region
 ============================
 
@@ -84,6 +104,7 @@ Keystone and cinder region
           host: 127.0.0.1
           region: RegionTwo
         ...
+
 
 Ceph integration glance
 =======================

@@ -246,8 +246,17 @@ notifier_strategy=rabbit
 notification_driver = messagingv2
 # Configuration options if sending notifications via rabbitmq (these are
 # the defaults)
+
+{%- if server.message_queue.members is defined %}
+rabbit_hosts = {% for member in server.message_queue.members -%}
+                   {{ member.host }}:{{ member.get('port', 5672) }}
+                   {%- if not loop.last -%},{%- endif -%}
+               {%- endfor -%}
+{%- else %}
 rabbit_host = {{ server.message_queue.host }}
 rabbit_port = {{ server.message_queue.port }}
+{%- endif %}
+
 rabbit_use_ssl = false
 rabbit_userid = {{ server.message_queue.user }}
 rabbit_password = {{ server.message_queue.password }}
