@@ -78,14 +78,13 @@ glance_install_database:
   - require:
     - service: glance_services
 
-/srv/glance:
+/var/lib/glance/images:
   file.directory:
-  - user: root
-  - group: root
   - mode: 755
-  - makedirs: true
+  - user: glance
+  - group: glance
   - require:
-    - cmd: glance_install_database
+    - pkg: glance_packages
 
 {%- for image in server.get('images', []) %}
 
