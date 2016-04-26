@@ -87,6 +87,14 @@ glance_install_database:
   - require:
     - cmd: glance_install_database
 
+/var/lib/glance/images:
+  file.directory:
+  - mode: 755
+  - user: glance
+  - group: glance
+  - require:
+    - cmd: glance_install_database
+
 {%- for image in server.get('images', []) %}
 
 glance_download_{{ image.name }}:
