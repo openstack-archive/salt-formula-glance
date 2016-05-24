@@ -61,8 +61,8 @@ glance_group:
   - template: jinja
   - require:
     - pkg: glance_packages
-  - watch_in:
-    - service: glance_services
+
+{%- if not grains.get('noservices', False) %}
 
 glance_services:
   service.running:
@@ -71,12 +71,26 @@ glance_services:
   - watch:
     - file: /etc/glance/glance-api.conf
     - file: /etc/glance/glance-registry.conf
+    - file: /etc/glance/glance-api-paste.ini
 
 glance_install_database:
   cmd.run:
   - name: glance-manage db_sync
   - require:
     - service: glance_services
+
+{%- endif %}
+
+{%- if grains.get('virtual_subtype', None) == "Docker" %}
+
+glance_entrypoint:
+  file.managed:
+  - name: /entrypoint.sh
+  - template: jinja
+  - source: salt://glance/files/entrypoint.sh
+  - mode: 755
+
+{%- endif %}
 
 /var/lib/glance/images:
   file.directory:
