@@ -10,6 +10,9 @@ salt-call --local --retcode-passthrough state.highstate
 service {{ service }} stop || true
 {% endfor %}
 
+#Fix ownership for api.log file
+chown glance:glance /var/log/glance/*
+
 if [ "$1" == "api" ]; then
     echo "starting glance-api"
     su glance --shell=/bin/sh -c '/usr/bin/glance-api --config-file=/etc/glance/glance-api.conf'
