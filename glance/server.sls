@@ -81,6 +81,28 @@ glance_install_database:
 
 {%- endif %}
 
+{%- if server.metadata is defined %}
+
+/etc/glance/metadefs:
+  file.recurse:
+  - source: salt://glance/files/{{ server.version }}/metadefs
+  - include_empty: True
+  - require:
+    - pkg: glance_packages
+    - cmd: glance_install_database
+  - watch_in:
+    - service: glance_services
+
+load_metadefs:
+  cmd.run:
+    - name: 'source /root/keystonerc; glance-manage db_load_metadefs && echo -n "\nchanged=yes"'
+    - stateful: True
+    - require:
+      - file: /etc/glance/metadefs
+      - pkg: glance_packages
+
+{%- endif %}
+
 {%- if grains.get('virtual_subtype', None) == "Docker" %}
 
 glance_entrypoint:
