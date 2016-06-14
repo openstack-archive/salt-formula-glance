@@ -126,6 +126,17 @@ Ceph integration glance
 
 * http://ceph.com/docs/master/rbd/rbd-openstack/
 
+
+Glance metadata definitions
+=======================
+
+.. code-block:: yaml
+
+    glance:
+      server:
+        metadata: yes
+
+
 Documentation and Bugs
 ============================
 
