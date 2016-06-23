@@ -1,7 +1,7 @@
 
 {% set server = salt['grains.filter_by']({
     'Debian': {
-        'pkgs': ['glance', 'glance-api', 'glance-registry', 'glance-common', 'python-glance', 'python-glance-store', 'python-glanceclient', 'gettext-base'],
+        'pkgs': ['glance', 'glance-api', 'glance-registry', 'glance-common', 'python-glance', 'python-glance-store', 'python-glanceclient', 'gettext-base', 'python-memcache'],
         'services': ['glance-api', 'glance-registry'],
         'notification': False,
     },
