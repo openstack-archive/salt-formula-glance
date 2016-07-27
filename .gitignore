@@ -1,4 +1,6 @@
 tests/build/
 *.swp
 *.pyc
-.ropeproject
+.ropeproject.kitchen/
+.kitchen.local.yml
+.kitchen
