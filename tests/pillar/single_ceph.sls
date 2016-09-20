@@ -2,7 +2,6 @@ glance:
   server:
     enabled: true
     version: liberty
-    workers: 1
     database:
       engine: mysql
       host: localhost
