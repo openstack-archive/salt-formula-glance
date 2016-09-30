@@ -12,19 +12,19 @@ check:
     subscribers:
     - local-glance-server
   remote_openstack_glance_api:
-    command: "PATH=$PATH:/usr/local/bin oschecks-check_glance_api --os_auth_url='http://:::openstack.host::::5000/v2.0' --os_username=:::openstack.user::: --os_password=':::openstack.password:::' --os_tenant_name=:::openstack.tenant:::"
+    command: "PATH=$PATH:/usr/local/bin oschecks-check_glance_api --os_auth_url='http://:::openstack.host::::5000/v2.0' --os_username=:::openstack.user::: --os_password=':::openstack.password:::' --os_tenant_name=:::openstack.tenant::: --os-region-name {{ controller.identity.region }}"
     interval: 60
     occurrences: 1
     subscribers:
     - remote-network
   remote_openstack_glance_image_exists:
-    command: "PATH=$PATH:/usr/local/bin oschecks-check_glance_image_exists --os_auth_url='http://:::openstack.host::::5000/v2.0' --os_username=:::openstack.user::: --os_password=':::openstack.password:::' --os_tenant_name=:::openstack.tenant:::"
+    command: "PATH=$PATH:/usr/local/bin oschecks-check_glance_image_exists --os_auth_url='http://:::openstack.host::::5000/v2.0' --os_username=:::openstack.user::: --os_password=':::openstack.password:::' --os_tenant_name=:::openstack.tenant::: --os-region-name {{ controller.identity.region }}"
     interval: 120
     occurrences: 1
     subscribers:
     - remote-network
   remote_openstack_glance_upload:
-    command: "PATH=$PATH:/usr/local/bin oschecks-check_glance_upload --os_auth_url='http://:::openstack.host::::5000/v2.0' --os_username=:::openstack.user::: --os_password=':::openstack.password:::' --os_tenant_name=:::openstack.tenant:::"
+    command: "PATH=$PATH:/usr/local/bin oschecks-check_glance_upload --os_auth_url='http://:::openstack.host::::5000/v2.0' --os_username=:::openstack.user::: --os_password=':::openstack.password:::' --os_tenant_name=:::openstack.tenant:::  --os-region-name {{ controller.identity.region }}"
     interval: 300
     occurrences: 1
     subscribers:
