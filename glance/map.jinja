@@ -10,4 +10,4 @@
         'services': ['openstack-glance-api', 'openstack-glance-registry'],
         'notification': False,
     },
-}, merge=salt['pillar.get']('glance:server')) %}
+}, merge=pillar.glance.get('server', {})) %}
