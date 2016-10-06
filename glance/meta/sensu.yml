@@ -1,4 +1,4 @@
-{%- from "glance/map.jinja" import server with context %}
+{%- from "nova/map.jinja" import controller with context %}
 check:
   local_glance_api_proc:
     command: "PATH=$PATH:/usr/lib64/nagios/plugins:/usr/lib/nagios/plugins check_procs -C glance-api -u glance -c 1:20"
@@ -13,19 +13,19 @@ check:
     subscribers:
     - local-glance-server
   remote_openstack_glance_api:
-    command: "PATH=$PATH:/usr/local/bin oschecks-check_glance_api --os_auth_url='http://:::openstack.host::::5000/v2.0' --os_username=:::openstack.user::: --os_password=':::openstack.password:::' --os_tenant_name=:::openstack.tenant::: --os-region-name {{ server.identity.region }}"
+    command: "PATH=$PATH:/usr/local/bin oschecks-check_glance_api --os_auth_url='http://:::openstack.host::::5000/v2.0' --os_username=:::openstack.user::: --os_password=':::openstack.password:::' --os_tenant_name=:::openstack.tenant::: --os-region-name {{ controller.network.region }}"
     interval: 60
     occurrences: 1
     subscribers:
     - remote-network
   remote_openstack_glance_image_exists:
-    command: "PATH=$PATH:/usr/local/bin oschecks-check_glance_image_exists --os_auth_url='http://:::openstack.host::::5000/v2.0' --os_username=:::openstack.user::: --os_password=':::openstack.password:::' --os_tenant_name=:::openstack.tenant::: --os-region-name {{ server.identity.region }}"
+    command: "PATH=$PATH:/usr/local/bin oschecks-check_glance_image_exists --os_auth_url='http://:::openstack.host::::5000/v2.0' --os_username=:::openstack.user::: --os_password=':::openstack.password:::' --os_tenant_name=:::openstack.tenant::: --os-region-name {{ controller.network.region }}"
     interval: 120
     occurrences: 1
     subscribers:
     - remote-network
   remote_openstack_glance_upload:
-    command: "PATH=$PATH:/usr/local/bin oschecks-check_glance_upload --os_auth_url='http://:::openstack.host::::5000/v2.0' --os_username=:::openstack.user::: --os_password=':::openstack.password:::' --os_tenant_name=:::openstack.tenant:::  --os-region-name {{ server.identity.region }}"
+    command: "PATH=$PATH:/usr/local/bin oschecks-check_glance_upload --os_auth_url='http://:::openstack.host::::5000/v2.0' --os_username=:::openstack.user::: --os_password=':::openstack.password:::' --os_tenant_name=:::openstack.tenant::: --os-region-name {{ controller.network.region }}"
     interval: 300
     occurrences: 1
     subscribers:
