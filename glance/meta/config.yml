@@ -16,4 +16,10 @@ config:
   glance-api-paste.ini:
     source: "salt://glance/files/{{ server.version }}/glance-api-paste.ini"
     template: jinja
+  glance-registry-paste.ini:
+    source: "salt://glance/files/{{ server.version }}/glance-registry-paste.ini"
+    template: jinja
+  policy.json:
+    source: "salt://glance/files/{{ server.version }}/policy.json"
+    template: jinja
   {%- endif %}
