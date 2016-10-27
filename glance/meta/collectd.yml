@@ -1,0 +1,11 @@
+{%- from "glance/map.jinja" import server with context %}
+
+remote_plugin:
+  openstack_glance:
+    plugin: python
+    template: glance/files/collectd_openstack_glance.conf
+    url: "http://{{ server.identity.host }}:{{ server.identity.port }}/v{% if server.identity.get('api_version', 2)|int == 2 %}2.0{% else %}3{% endif %}"
+    username: {{ server.identity.user }}
+    password: {{ server.identity.password }}
+    tenant: {{ server.identity.tenant }}
+{%- endif %}
