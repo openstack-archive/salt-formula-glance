@@ -11,8 +11,8 @@ log_collector:
   input:
     glance_log:
       engine: logstreamer
-      log_directory: "/var/log/glance"
-      file_match: '(?P<Service>.+)\.log\.?(?P<Seq>\d*)$'
+      log_directory: "/var/log"
+      file_match: 'glance/(?P<Service>.+)\.log\.?(?P<Seq>\d*)$'
       differentiator: ['glance', '_', 'Service']
       priority: ["^Seq"]
       decoder: "glance_decoder"
