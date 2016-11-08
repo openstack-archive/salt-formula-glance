@@ -1,4 +1,10 @@
 {%- from "glance/map.jinja" import server with context %}
+local_plugin:
+  collectd_check_local_endpoint:
+    endpoint:
+      glance-api:
+        expected_code: 300
+        url: "http://{{ server.bind.address|replace('0.0.0.0', '127.0.0.1') }}:{{ server.bind.port }}/"
 
 remote_plugin:
   openstack_glance:
