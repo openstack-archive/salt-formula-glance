@@ -18,3 +18,103 @@ log_collector:
       priority: ["^Seq"]
       decoder: "glance_decoder"
       splitter: "glance_splitter"
+metric_collector:
+  trigger:
+    glance_logs_error:
+      description: 'Too many errors have been detected in Glance logs.'
+      severity: warning
+      no_data_policy: okay
+      rules:
+      - metric: log_messages
+        field:
+          service: glance
+          level: error
+        relational_operator: '>'
+        threshold: 0.1
+        window: 70
+        periods: 0
+        function: max
+    glance_api_local_endpoint:
+      description: 'Glance API is locally down.'
+      severity: down
+      rules:
+      - metric: openstack_check_local_api
+        field:
+          service: glance-api
+        relational_operator: '=='
+        threshold: 0
+        window: 60
+        periods: 0
+        function: last
+  alarm:
+    glance_logs:
+      alerting: enabled
+      triggers:
+      - glance_logs_error
+      dimension:
+        service: glance-logs
+    glance_api_endpoint:
+      alerting: enabled
+      triggers:
+      - glance_api_local_endpoint
+      dimension:
+        service: glance-api-endpoint
+remote_collector:
+  trigger:
+    glance_api_check_failed:
+      description: 'Endpoint check for glance-api is failed'
+      severity: down
+      rules:
+      - metric: openstack_check_api
+        field:
+          service: glance-api
+        relational_operator: '=='
+        threshold: 0
+        window: 60
+        periods: 0
+        function: last
+  alarm:
+    glance_api_check:
+      alerting: true
+      triggers:
+      - glance_api_check_failed
+      dimension:
+        service: glance-api-check
+aggregator:
+  alarm_cluster:
+    glance_logs:
+      policy: highest_severity
+      group_by: hostname
+      match:
+        service: glance-logs
+      members:
+      - glance_logs
+      dimension:
+        service: glance
+    glance_api_endpoint:
+      policy: availability_of_members
+      group_by: hostname
+      match:
+        service: glance-api-endpoint
+      members:
+      - glance_api_endpoint
+      dimension:
+        service: glance
+    glance_api_check:
+      policy: highest_severity
+      match:
+        service: glance-api-check
+      members:
+      - glance_api_check
+      dimension:
+        service: glance
+    glance:
+      policy: highest_severity
+      match:
+        service: glance
+      members:
+      - glance_logs
+      - glance_api_endpoint
+      - glance_api_check
+      dimension:
+        cluster_name: glance
