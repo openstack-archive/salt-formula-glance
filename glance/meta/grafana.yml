@@ -1,0 +1,3 @@
+dashboard:
+  glance:
+    template: glance/files/Glance.json
