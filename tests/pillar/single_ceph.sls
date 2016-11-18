@@ -21,6 +21,7 @@ glance:
       port: 35357
       user: glance
       password: password
+      region: RegionOne
       tenant: service
     message_queue:
       engine: rabbitmq
