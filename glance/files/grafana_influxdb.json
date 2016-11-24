@@ -1279,7 +1279,7 @@
               "groupByTags": [],
               "measurement": "haproxy_backend_servers",
               "policy": "default",
-              "query": "SELECT last(\"value\") FROM \"haproxy_backend_servers\" WHERE \"environment_label\" =~ /^$environment$/ AND \"backend\" = 'glance-registry-api' AND \"state\" = 'up' AND $timeFilter GROUP BY time($interval) fill(null)",
+              "query": "SELECT last(\"value\") FROM \"haproxy_backend_servers\" WHERE \"environment_label\" =~ /^$environment$/ AND \"backend\" = 'glance_registry_api' AND \"state\" = 'up' AND $timeFilter GROUP BY time($interval) fill(null)",
               "rawQuery": false,
               "refId": "A",
               "resultFormat": "time_series",
@@ -1305,7 +1305,7 @@
                 },
                 {
                   "key": "backend",
-                  "value": "glance-registry-api"
+                  "value": "glance_registry_api"
                 },
                 {
                   "condition": "AND",
@@ -1519,7 +1519,7 @@
               "groupByTags": [],
               "measurement": "haproxy_backend_servers",
               "policy": "default",
-              "query": "SELECT last(\"value\") FROM \"haproxy_backend_servers\" WHERE \"environment_label\" =~ /^$environment$/ AND \"backend\" = 'glance-registry-api' AND \"state\" = 'down' AND $timeFilter GROUP BY time($interval) fill(null)",
+              "query": "SELECT last(\"value\") FROM \"haproxy_backend_servers\" WHERE \"environment_label\" =~ /^$environment$/ AND \"backend\" = 'glance_registry_api' AND \"state\" = 'down' AND $timeFilter GROUP BY time($interval) fill(null)",
               "rawQuery": false,
               "refId": "A",
               "resultFormat": "time_series",
@@ -1545,7 +1545,7 @@
                 },
                 {
                   "key": "backend",
-                  "value": "glance-registry-api"
+                  "value": "glance_registry_api"
                 },
                 {
                   "condition": "AND",
