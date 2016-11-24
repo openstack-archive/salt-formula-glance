@@ -75,7 +75,7 @@ remote_collector:
         function: last
   alarm:
     glance_api_check:
-      alerting: true
+      alerting: enabled
       triggers:
       - glance_api_check_failed
       dimension:
@@ -84,6 +84,7 @@ aggregator:
   alarm_cluster:
     glance_logs:
       policy: highest_severity
+      alerting: enabled
       group_by: hostname
       match:
         service: glance-logs
@@ -91,8 +92,10 @@ aggregator:
       - glance_logs
       dimension:
         service: glance
+        nagios_host: 01-service-clusters
     glance_api_endpoint:
       policy: availability_of_members
+      alerting: enabled
       group_by: hostname
       match:
         service: glance-api-endpoint
@@ -100,16 +103,20 @@ aggregator:
       - glance_api_endpoint
       dimension:
         service: glance
+        nagios_host: 01-service-clusters
     glance_api_check:
       policy: highest_severity
+      alerting: enabled
       match:
         service: glance-api-check
       members:
       - glance_api_check
       dimension:
         service: glance
+        nagios_host: 01-service-clusters
     glance:
       policy: highest_severity
+      alerting: enabled_with_notification
       match:
         service: glance
       members:
@@ -118,3 +125,4 @@ aggregator:
       - glance_api_check
       dimension:
         cluster_name: glance
+        nagios_host: 00-top-clusters
