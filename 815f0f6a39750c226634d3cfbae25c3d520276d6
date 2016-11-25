@@ -1,0 +1,9 @@
+Code-Review+1: Guillaume Thouvenin <gthouvenin@mirantis.com>
+Code-Review+2: Simon Pasquier <spasquier@mirantis.com>
+Workflow+1: Simon Pasquier <spasquier@mirantis.com>
+Verified+2: Jenkins
+Submitted-by: Jenkins
+Submitted-at: Fri, 25 Nov 2016 11:19:46 +0000
+Reviewed-on: https://review.openstack.org/402035
+Project: openstack/salt-formula-glance
+Branch: refs/heads/stacklight
