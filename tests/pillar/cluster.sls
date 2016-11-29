@@ -37,3 +37,6 @@ glance:
       virtual_host: '/openstack'
     storage:
       engine: file
+    audit:
+      filter_factory: 'keystonemiddleware.audit:filter_factory'
+      map_file: '/etc/pycadf/glance_api_audit_map.conf'

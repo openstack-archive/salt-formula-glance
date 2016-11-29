@@ -70,6 +70,8 @@ Sample pillar
           file: cirros-0.3.1-x86_64-disk.img
           source: http://cdn.download.cirros-cloud.net/0.3.1/cirros-0.3.1-x86_64-disk.img
           public: true
+        audit:
+          enabled: false
 
 
 Client-side RabbitMQ HA setup
@@ -89,6 +91,20 @@ Client-side RabbitMQ HA setup
           password: pwd
           virtual_host: '/openstack'
         ....
+
+
+Enable auditing filter, ie: CADF
+
+.. code-block:: yaml
+
+    glance:
+      server:
+        audit:
+          enabled: true
+      ....
+          filter_factory: 'keystonemiddleware.audit:filter_factory'
+          map_file: '/etc/pycadf/glance_api_audit_map.conf'
+      ....
 
 
 Keystone and cinder region
