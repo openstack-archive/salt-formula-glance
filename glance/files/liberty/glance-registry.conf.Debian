@@ -90,24 +90,30 @@ limit_param_default = 25
 # Driver or drivers to handle sending notifications. Set to
 # 'messaging' to send notifications to a message queue.
 # notification_driver = noop
+{% if server.notification %}
+rpc_backend = rabbit
+notifier_strategy = rabbit
+notification_driver = messagingv2
 
-# Default publisher_id for outgoing notifications.
-# default_publisher_id = image.localhost
+{%- if server.message_queue.members is defined %}
+rabbit_hosts = {% for member in server.message_queue.members -%}
+                   {{ member.host }}:{{ member.get('port', 5672) }}
+                   {%- if not loop.last -%},{%- endif -%}
+               {%- endfor -%}
+{%- else %}
+rabbit_host = {{ server.message_queue.host }}
+rabbit_port = {{ server.message_queue.port }}
+{%- endif %}
 
-# Messaging driver used for 'messaging' notifications driver
-# rpc_backend = 'rabbit'
-
-# Configuration options if sending notifications via rabbitmq (these are
-# the defaults)
-rabbit_host = localhost
-rabbit_port = 5672
 rabbit_use_ssl = false
-rabbit_userid = guest
-rabbit_password = guest
-rabbit_virtual_host = /
+rabbit_userid = {{ server.message_queue.user }}
+rabbit_password = {{ server.message_queue.password }}
+rabbit_virtual_host = {{ server.message_queue.virtual_host }}
 rabbit_notification_exchange = glance
 rabbit_notification_topic = notifications
-rabbit_durable_queues = False
+{% else %}
+notifier_strategy=noop
+{% endif %}
 
 # Configuration options if sending notifications via Qpid (these are
 # the defaults)
