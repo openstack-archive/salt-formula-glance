@@ -134,7 +134,7 @@ Ceph integration glance
         enabled: true
         version: juno
         storage:
-          engine: rbd
+          engine: rbd,http
           user: glance
           pool: images
           chunk_size: 8

@@ -1,4 +1,5 @@
 {%- from "glance/map.jinja" import server with context %}
+{% set storage_engines = server.storage.engine.split(',') %}
 [DEFAULT]
 
 #
@@ -761,11 +762,11 @@ max_overflow = 30
 # List of stores enabled. Valid stores are: cinder, file, http, rbd,
 # sheepdog, swift, s3, vsphere (list value)
 #stores = file,http
-{%- if server.storage.engine == 'file' %}
+{%- if 'file' in storage_engines %}
 default_store = file
 stores = file,http
 {%- else %}
-default_store = {{ server.storage.engine }}
+default_store = {{ storage_engines[0]  }}
 stores = {{ server.storage.engine }}
 {%- endif %}
 # Default scheme to use to store image data. The scheme must be
@@ -913,7 +914,7 @@ stores = {{ server.storage.engine }}
 # The config file that has the swift account(s)configs. (string value)
 #swift_store_config_file = <None>
 
-{%- if server.storage.engine == 'rbd' %}
+{%- if 'rbd' in storage_engines %}
 # RADOS images will be chunked into objects of this size (in
 # megabytes). For best performance, this should be a power of two.
 # (integer value)
