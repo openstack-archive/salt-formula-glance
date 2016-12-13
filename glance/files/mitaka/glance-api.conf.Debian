@@ -1454,6 +1454,11 @@ driver = messagingv2
 # Deprecated group/name - [DEFAULT]/notification_topics
 #topics = notifications
 
+{%- if server.notification_topics %}
+{%- for topic in server.notification_topics %}
+topics = {{ topic }}
+{%- endfor %}
+{%- endif %}
 
 [oslo_messaging_rabbit]
 
