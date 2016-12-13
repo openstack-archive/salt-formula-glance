@@ -1137,6 +1137,10 @@ memcached_servers={%- for member in server.cache.members %}{{ member.host }}:112
 # Deprecated group/name - [DEFAULT]/notification_topics
 #topics = notifications
 
+{%- if server.notification.topics is defined %}
+topics = {{ server.notification.topics }}
+{%- endif %}
+
 
 [oslo_messaging_rabbit]
 
