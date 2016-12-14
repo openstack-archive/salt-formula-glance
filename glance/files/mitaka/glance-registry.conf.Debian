@@ -1125,9 +1125,14 @@ memcached_servers={%- for member in server.cache.members %}{{ member.host }}:112
 # messaging, messagingv2, routing, log, test, noop (multi valued)
 # Deprecated group/name - [DEFAULT]/notification_driver
 #driver =
-{% if server.notification %}
+{%- if server.notification is mapping %}
+driver = {{ server.notification.get('driver', 'messagingv2') }}
+{%- if server.notification.topics is defined %}
+topics = {{ server.notification.topics }}
+{%- endif %}
+{%- elif server.notification %}
 driver = messagingv2
-{% endif %}
+{%- endif %}
 
 # A URL representing the messaging driver to use for notifications. If
 # not set, we fall back to the same configuration used for RPC.
