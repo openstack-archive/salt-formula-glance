@@ -214,9 +214,9 @@ registry_client_protocol = http
 #auth_url = None
 # Keystone region
 #auth_region = None
-{% if server.identity.region is defined %}
+{%- if server.identity.region is defined %}
 auth_region = {{ server.identity.region }}
-{% endif %}
+{%- endif %}
 # Auth strategy
 #auth_strategy = keystone
 
@@ -240,10 +240,14 @@ auth_region = {{ server.identity.region }}
 
 # Messaging driver used for 'messaging' notifications driver
 # rpc_backend = 'rabbit'
-{% if server.notification %}
+{%- if server.notification is defined %}
 rpc_backend = rabbit
-notifier_strategy=rabbit
+notifier_strategy = rabbit
+{%- if server.notification.driver is defined %}
+notification_driver = {{ server.notification.driver }}
+{%- else %}
 notification_driver = messagingv2
+{%- endif %}
 # Configuration options if sending notifications via rabbitmq (these are
 # the defaults)
 
@@ -262,17 +266,25 @@ rabbit_userid = {{ server.message_queue.user }}
 rabbit_password = {{ server.message_queue.password }}
 rabbit_virtual_host = {{ server.message_queue.virtual_host }}
 rabbit_notification_exchange = glance
+{%- if server.notification.topics is defined %}
+rabbit_notification_topic = {{ server.notification.topics }}
+{%- else %}
 rabbit_notification_topic = notifications
+{%- endif %}
 #rabbit_durable_queues = False
 
-{% else %}
+{%- else %}
 #notifier_strategy=qpid
 notifier_strategy=noop
-{% endif %}
+{%- endif %}
 # Configuration options if sending notifications via Qpid (these are
 # the defaults)
 qpid_notification_exchange = glance
+{%- if server.notification.topics is defined %}
+qpid_notification_topic = {{ server.notification.topics }}
+{%- else %}
 qpid_notification_topic = notifications
+{%- endif %}
 qpid_hostname = localhost
 qpid_port = 5672
 qpid_username =
@@ -815,9 +827,9 @@ sheepdog_store_chunk_size = 64
 
 # Region name of this node (string value)
 #os_region_name = <None>
-{% if server.identity.region is defined %}
+{%- if server.identity.region is defined %}
 os_region_name = {{ server.identity.region }}
-{% endif %}
+{%- endif %}
 # Location of ca certicates file to use for cinder client requests
 # (string value)
 #cinder_ca_certificates_file = <None>

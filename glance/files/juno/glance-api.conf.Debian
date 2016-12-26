@@ -213,10 +213,14 @@ registry_client_protocol = http
 # There are three methods of sending notifications, logging (via the
 # log_file directive), rabbit (via a rabbitmq queue), qpid (via a Qpid
 # message queue), or noop (no notifications sent, the default)
-{% if server.notification %}
+{%- if server.notification is defined %}
 rpc_backend = rabbit
-notifier_strategy=rabbit
+notifier_strategy = rabbit
+{%- if server.notification.driver is defined %}
+notification_driver = {{ server.notification.driver }}
+{%- else %}
 notification_driver = messagingv2
+{%- endif %}
 # Configuration options if sending notifications via rabbitmq (these are
 # the defaults)
 rabbit_host = {{ server.message_queue.host }}
@@ -226,17 +230,25 @@ rabbit_userid = {{ server.message_queue.user }}
 rabbit_password = {{ server.message_queue.password }}
 rabbit_virtual_host = {{ server.message_queue.virtual_host }}
 rabbit_notification_exchange = glance
+{%- if server.notification.topics is defined %}
+rabbit_notification_topic = {{ server.notification.topics }}
+{%- else %}
 rabbit_notification_topic = notifications
+{%- endif %}
 #rabbit_durable_queues = False
 
-{% else %}
+{%- else %}
 #notifier_strategy=qpid
 notifier_strategy=noop
-{% endif %}
+{%- endif %}
 # Configuration options if sending notifications via Qpid (these are
 # the defaults)
 qpid_notification_exchange = glance
+{%- if server.notification.topics is defined %}
+qpid_notification_topic = {{ server.notification.topics }}
+{%- else %}
 qpid_notification_topic = notifications
+{%- endif %}
 qpid_host = localhost
 qpid_port = 5672
 qpid_username =guest

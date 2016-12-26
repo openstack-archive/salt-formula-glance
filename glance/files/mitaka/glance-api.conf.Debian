@@ -324,9 +324,9 @@ registry_port = {{ server.registry.port }}
 # read OSSN-0060. Related functionality with uploading big images has
 # been implemented with Keystone trusts support.
 #auth_region = <None>
-{% if server.identity.region is defined %}
+{%- if server.identity.region is defined %}
 auth_region = {{ server.identity.region }}
-{% endif %}
+{%- endif %}
 
 # The protocol to use for communication with the registry server.
 # Either http or https. (string value)
@@ -957,9 +957,9 @@ rbd_store_ceph_conf = /etc/ceph/ceph.conf
 # OpenStack services for stores. (string value)
 # Deprecated group/name - [DEFAULT]/os_region_name
 #cinder_os_region_name = <None>
-{% if server.identity.region is defined %}
+{%- if server.identity.region is defined %}
 cinder_os_region_name = {{ server.identity.region }}
-{% endif %}
+{%- endif %}
 
 # Location of ca certicates file to use for cinder client requests.
 # (string value)
@@ -1438,10 +1438,11 @@ memcached_servers={%- for member in server.cache.members %}{{ member.host }}:112
 # The Drivers(s) to handle sending notifications. Possible values are
 # messaging, messagingv2, routing, log, test, noop (multi valued)
 # Deprecated group/name - [DEFAULT]/notification_driver
-#driver =
-{% if server.notification %}
-driver = messagingv2
-{% endif %}
+{%- if server.notification.driver is defined %}
+driver = {{ server.notification.driver }}
+{%- else %}
+#driver=
+{%- endif %}
 
 # A URL representing the messaging driver to use for notifications. If
 # not set, we fall back to the same configuration used for RPC.
@@ -1453,7 +1454,9 @@ driver = messagingv2
 # Deprecated group/name - [rpc_notifier2]/topics
 # Deprecated group/name - [DEFAULT]/notification_topics
 #topics = notifications
-
+{%- if server.notification.topics is defined %}
+topics = {{ server.notification.topics }}
+{%- endif %}
 
 [oslo_messaging_rabbit]
 
