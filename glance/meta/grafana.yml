@@ -2,3 +2,29 @@ dashboard:
   glance:
     format: json
     template: glance/files/grafana_dashboards/glance_influxdb.json
+  AutomaticMain:
+    row:
+      ost-control-plane:
+        title: OpenStack Control Plane
+        panel:
+          glance:
+            title: Glance
+            target:
+              cluster_status:
+                measurement: cluster_status
+                refId: A
+                policy: default
+                dsType: influxdb
+                resultFormat: time_series
+                groupBy: []
+                select:
+                - - type: field
+                    params:
+                    - value
+                  - type: last
+                    params: []
+                rawQuery: false
+                tags:
+                - key: cluster_name
+                  operator: "="
+                  value: glance
