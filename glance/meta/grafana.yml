@@ -2,3 +2,18 @@ dashboard:
   glance:
     format: json
     template: glance/files/grafana_dashboards/glance_influxdb.json
+  Main:
+    row:
+      ost-control-plane:
+        title: OpenStack Control Plane
+        panel:
+          glance:
+            title: Glance
+            links:
+            - dashboard: Glance
+              title: Glance
+              type: dashboard
+            target:
+              cluster_status:
+                rawQuery: true
+                query: SELECT last(value) FROM cluster_status WHERE cluster_name = 'glance' AND environment_label = '$environment' AND $timeFilter GROUP BY time($interval) fill(null)
