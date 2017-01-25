@@ -1,4 +1,0 @@
-dashboard:
-  glance:
-    format: json
-    template: glance/files/grafana_dashboards/glance_influxdb.json
